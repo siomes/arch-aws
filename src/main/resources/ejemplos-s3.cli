@@ -1,0 +1,32 @@
+aws configure
+
+aws help
+
+aws s3 help
+
+aws s3 mb help 
+
+aws s3 mb s3://un-nombre-cualquiera
+
+aws s3 sync . s3://un-nombre-cualquiera/carpeta-sincronizada
+
+aws s3 sync . s3://un-nombre-cualquiera/carpeta-sincronizada --delete
+
+#cp <origen> <destino> <args>
+aws s3 cp listado-nuevo.txt s3://un-nombre-cualquiera/ejemplos-s3
+
+aws s3 cp s3://un-nombre-cualquiera/ejemplos-s3/listado-nuevo.txt otro.txt
+
+aws ec2 describe-images 
+
+aws ec2 describe-images --owners amazon --filters "Name=architecture,Values=x86_64" "Name=description,Values=*Linux*" --executable-users all
+
+aws ec2 describe-security-groups
+
+aws ec2 describe-subnets
+
+aws ec2 create-key-pair --key-name kp-demos2 --output text
+
+aws ec2 run-instances --image-id ami-0a368579 --count 1 --instance-type t2.micro --key-name kp-demos2 --security-group-ids sg-f8a0f982 --subnet-id subnet-03eece58
+
+aws ec2 describe-instance-status --instance-ids instance-ID --include-all-instances
