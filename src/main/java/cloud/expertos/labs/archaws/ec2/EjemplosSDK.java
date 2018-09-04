@@ -19,26 +19,29 @@ public class EjemplosSDK {
 
 	public static void main(String[] args) {
 
-		//	String instanceId = crearInstancia(InstanceType.T2Micro, 1);
-		//	System.out.println("Creada instancia con id: " + instanceId);
+		String instanceId = crearInstancia(InstanceType.T2Micro, 1);
+		System.out.println("Creada instancia con id: " + instanceId);
 
-		String instanceId = "i-0400f3ac21ae8b513";
-		boolean parada = pararInstancia(instanceId);
-		if (parada)
-			System.out.println("La instancia: " + instanceId + " se ha detenido correctamente");
-		else {
-			System.out.println("Instancia: " + instanceId + " no se ha detenido correctamente");
-		}
+		/*
+		 * String instanceId = "i-0400f3ac21ae8b513"; boolean parada =
+		 * pararInstancia(instanceId); if (parada) System.out.println("La instancia: " +
+		 * instanceId + " se ha detenido correctamente"); else {
+		 * System.out.println("Instancia: " + instanceId +
+		 * " no se ha detenido correctamente"); }
+		 */
 	}
 
 	private static String crearInstancia(InstanceType instanteType, int cantidad) {
-		/*CreateSecurityGroupRequest nuevoSG = new CreateSecurityGroupRequest();
-		nuevoSG.withGroupName("WebServerSG").withDescription("WebServers Security Group");
-		
-		CreateSecurityGroupResult createSecurityGroupResult = ec2.createSecurityGroup(nuevoSG);
-		*/
-		RunInstancesRequest rinInstanceReq = new RunInstancesRequest().withImageId("ami-0bdb1d6c15a40392c").withInstanceType(instanteType).withMaxCount(cantidad)
-				.withMinCount(cantidad);
+		/*
+		 * CreateSecurityGroupRequest nuevoSG = new CreateSecurityGroupRequest();
+		 * nuevoSG.withGroupName("WebServerSG").
+		 * withDescription("WebServers Security Group");
+		 * 
+		 * CreateSecurityGroupResult createSecurityGroupResult =
+		 * ec2.createSecurityGroup(nuevoSG);
+		 */
+		RunInstancesRequest rinInstanceReq = new RunInstancesRequest().withImageId("ami-0bdb1d6c15a40392c")
+				.withInstanceType(instanteType).withMaxCount(cantidad).withMinCount(cantidad);
 
 		RunInstancesResult resultado = ec2.runInstances(rinInstanceReq);
 
@@ -60,7 +63,8 @@ public class EjemplosSDK {
 	 * Termina una instancia
 	 */
 	private static boolean terminarInstancia(String instanceId) {
-		TerminateInstancesResult result = ec2.terminateInstances(new TerminateInstancesRequest().withInstanceIds(instanceId));
+		TerminateInstancesResult result = ec2
+				.terminateInstances(new TerminateInstancesRequest().withInstanceIds(instanceId));
 		return result.getTerminatingInstances().iterator().next().getInstanceId().equals(instanceId);
 	}
 

@@ -1,0 +1,67 @@
+{
+  "AWSTemplateFormatVersion" : "2010-09-09",
+
+  "Description" : "Plantilla CloudFormation muy simple con una instancia EC2 y un grupo de seguridad asociados",
+
+  "Parameters" : {
+    "ExistingKeyName": {
+      "Description" : "KeyPair que ha de existir",
+      "Type": "AWS::EC2::KeyPair::KeyName",
+      "ConstraintDescription" : "Ha de existir en la región actual."
+    },
+
+    "InstanceType" : {
+      "Description" : "Tipo de nuestra nueva instancia",
+      "Type" : "String",
+      "Default" : "t2.micro",
+      "ConstraintDescription" : "Debe ser un tipo de instancia correcto (minusculas)."
+    },
+	
+	"AMIId" : {
+      "Description" : "Id de la AMI/plantilla a crear",
+      "Type" : "String",
+      "ConstraintDescription" : "Emplear una perteneciente a la región empleada."
+    }
+	
+  },
+ 
+  "Resources" : {
+    "NewEC2Instance" : {
+      "Type" : "AWS::EC2::Instance",
+      "Properties" : {
+        "InstanceType" : { "Ref" : "InstanceType" },
+        "SecurityGroups" : [ { "Ref" : "NewSecurityGroup" } ],
+        "KeyName" : { "Ref" : "ExistingKeyName" },
+        "ImageId" : { "Ref" : "AMIId" }
+      }
+    },
+
+    "NewSecurityGroup" : {
+      "Type" : "AWS::EC2::SecurityGroup",
+      "Properties" : {
+        "GroupDescription" : "SSH en puerto 22",
+        "SecurityGroupIngress" : [ {
+          "IpProtocol" : "tcp",
+          "FromPort" : "22",
+          "ToPort" : "22",
+          "CidrIp" : "0.0.0.0/0"
+        } ]
+      }
+    }
+  },
+
+  "Outputs" : {
+    "IdInstancia" : {
+      "Description" : "Identificador de nuestra nueva instancia",
+      "Value" : { "Ref" : "NewEC2Instance" }
+    },
+    "Zona" : {
+      "Description" : "Zona de disponibilidad de nuestra nueva instancia",
+      "Value" : { "Fn::GetAtt" : [ "NewEC2Instance", "AvailabilityZone" ] }
+    },
+    "IPPublica" : {
+      "Description" : "IP publica asignada",
+      "Value" : { "Fn::GetAtt" : [ "NewEC2Instance", "PublicIp" ] }
+    }
+  }
+}

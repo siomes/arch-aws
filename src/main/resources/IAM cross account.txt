@@ -1,0 +1,26 @@
+En LABS
+Grupo testers en LABS, con privilegios de admin en dicha cuenta
+Usuario pepito en Labs perteneciente al grupo testers
+
+En ROOT
+Crear política que permite acceso a recurso específico. 
+	- Bucket concreto
+	- Prefijo.
+	- Nombre objetos permitidos, etc
+Crear rol de tipo acceso a cuenta externa con política anterior. 
+Autorizamos así a LABS (account ID) a asumir dicho rol.
+Interesante personalizar duración de este acceso temporal.
+
+En LABS, asignamos a grupo testers nueva política para permitir asumir (accion sts, Security Token Service)
+el rol anterior en ROOT. Mención especial el ARN y la acción a realizar.
+
+{
+    "Version": "2012-10-17",
+    "Statement": {
+        "Effect": "Allow",
+        "Action": "sts:AssumeRole",
+        "Resource": "arn:aws:iam::894440314573:role/AccesoTesters"
+    }
+}
+
+Demostrar Acceso usuario con credenciales de acceso en LABS y asumir desde consola rol en ROOT.
